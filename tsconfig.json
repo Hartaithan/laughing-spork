@@ -7,7 +7,7 @@
     "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "paths": { "~/*": ["src/*"] },
+    "paths": { "@/*": ["src/*"] },
     "types": ["vite/client", "chrome"],
     "allowImportingTsExtensions": true,
     "strict": true,
