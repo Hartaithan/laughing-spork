@@ -5,37 +5,39 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <section class="section">
-      <h2 class="title">API Configuration</h2>
-      <div class="form-field">
-        <label for="api_key" class="label">OpenRouter API Key</label>
-        <input
-          type="password"
-          id="api_key"
-          class="input"
-          placeholder="Enter your API key"
-          required
-        />
-      </div>
-    </section>
-    <section class="section">
-      <h2 class="title">Your Experience</h2>
-      <div class="form-field">
-        <label for="experience" class="label">
-          Describe your experience, skills and achievements
-        </label>
-        <textarea
-          id="experience"
-          rows="10"
-          class="textarea"
-          placeholder="For example: 5 years of experience in JavaScript, TypeScript, React development. Worked on fintech projects..."
-          required
-        ></textarea>
-      </div>
-    </section>
-    <footer class="footer">
-      <button id="save" class="button">Save</button>
-    </footer>
+    <form id="form">
+      <section class="section">
+        <h2 class="title">API Configuration</h2>
+        <div class="form-field">
+          <label for="api_key" class="label">OpenRouter API Key</label>
+          <input
+            type="password"
+            id="api_key"
+            name="api_key"
+            class="input"
+            placeholder="Enter your API key"
+          />
+        </div>
+      </section>
+      <section class="section">
+        <h2 class="title">Your Experience</h2>
+        <div class="form-field">
+          <label for="experience" class="label">
+            Describe your experience, skills and achievements
+          </label>
+          <textarea
+            id="experience"
+            name="experience"
+            rows="10"
+            class="textarea"
+            placeholder="For example: 5 years of experience in JavaScript, TypeScript, React development. Worked on fintech projects..."
+          ></textarea>
+        </div>
+      </section>
+      <footer class="footer">
+        <button id="save" class="button" type="submit">Save</button>
+      </footer>
+    </form>
     <script type="module" src="./main.js"></script>
   </body>
 </html>

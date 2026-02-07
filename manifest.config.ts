@@ -13,5 +13,5 @@ export default defineManifest({
   content_scripts: [
     { js: ["src/content/main.ts"], matches: ["https://*.hh.ru/*"] },
   ],
-  permissions: ["contentSettings"],
+  permissions: ["contentSettings", "storage"],
 });
