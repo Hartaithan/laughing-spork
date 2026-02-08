@@ -2,7 +2,6 @@ import { UI } from "@/modules/ui";
 
 const init = async () => {
   const ui = UI.getInstance();
-  await ui.create();
 
   const container = ui.shadow?.querySelector(".container");
   const button = ui.shadow?.querySelector("#toggle");
