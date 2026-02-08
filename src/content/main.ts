@@ -1,14 +1,11 @@
 import { Settings } from "@/modules/settings";
 import { UI } from "@/modules/ui";
 import { getForm, getFormValues, setFieldValue } from "./form";
+import { isVacancyPage } from "@/utils/navigation";
 
 const init = async () => {
   const ui = UI.getInstance();
-
-  const container = ui.shadow?.querySelector(".container");
-  const button = ui.shadow?.querySelector("#toggle");
-  const close = ui.shadow?.querySelector("#close");
-  if (!container || !button || !close) return;
+  const settingsUI = ui.settings;
 
   const settings = Settings.getInstance();
   await settings.loadValues();
@@ -24,13 +21,20 @@ const init = async () => {
     settings.save(data);
   });
 
-  button.addEventListener("click", () => {
-    container.classList.toggle("hidden");
+  settingsUI.toggle.addEventListener("click", () => {
+    settingsUI.container.classList.toggle("hidden");
   });
 
-  close.addEventListener("click", () => {
-    container.classList.add("hidden");
+  settingsUI.close.addEventListener("click", () => {
+    settingsUI.container.classList.add("hidden");
   });
+
+  if (isVacancyPage()) {
+    const generateButton = ui.createGenerateButton();
+    generateButton.addEventListener("click", () => {
+      console.log("generate button clicked!");
+    });
+  }
 };
 
 if (document.readyState === "loading") {

@@ -25,7 +25,8 @@ button {
   background: none;
 }
 
-.toggle {
+.toggle,
+#laughing-spork-generate-button {
   position: fixed;
   bottom: var(--toggle-offset);
   right: var(--toggle-offset);
@@ -40,6 +41,13 @@ button {
   align-items: center;
   justify-content: center;
   font-weight: bold;
+}
+
+#laughing-spork-generate-button {
+  width: auto;
+  padding: 1rem;
+  font-size: 1rem;
+  right: calc(var(--toggle-offset) + var(--toggle-offset) + var(--toggle-size));
 }
 
 .toggle:hover {
