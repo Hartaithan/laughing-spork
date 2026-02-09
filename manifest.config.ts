@@ -19,11 +19,5 @@ export default defineManifest({
       run_at: "document_start",
     },
   ],
-  web_accessible_resources: [
-    {
-      resources: ["src/content/index.html", "src/content/style.css"],
-      matches,
-    },
-  ],
   permissions: ["contentSettings", "storage"],
 });
