@@ -1,7 +1,9 @@
 import { Settings } from "@/modules/settings";
 import { UI } from "@/modules/ui";
 import { getForm, getFormValues, setFieldValue } from "./form";
-import { isVacancyPage } from "@/utils/navigation";
+import { isVacancyPage } from "@/utils/vacancy";
+import { generatePrompt } from "@/utils/prompt";
+import { API } from "@/modules/api";
 
 const init = async () => {
   const ui = UI.getInstance();
@@ -32,7 +34,15 @@ const init = async () => {
   if (isVacancyPage()) {
     const generateButton = ui.createGenerateButton();
     generateButton.addEventListener("click", () => {
-      console.log("generate button clicked!");
+      const prompt = generatePrompt();
+      API.getInstance()
+        .generate(prompt)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error("unable to generate letter", error);
+        });
     });
   }
 };
