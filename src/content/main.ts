@@ -4,6 +4,8 @@ import { getForm, getFormValues, setFieldValue } from "./form";
 import { isVacancyPage } from "@/utils/vacancy";
 import { generatePrompt } from "@/utils/prompt";
 import { API } from "@/modules/api";
+import { LetterForm } from "@/modules/letter-form";
+import { Modal } from "@/modules/modal";
 
 const init = async () => {
   const ui = UI.getInstance();
@@ -34,11 +36,15 @@ const init = async () => {
   if (isVacancyPage()) {
     const generateButton = ui.createGenerateButton();
     generateButton.addEventListener("click", () => {
-      const prompt = generatePrompt();
+      const form = LetterForm.getInstance();
+      const modal = Modal.getInstance();
       API.getInstance()
-        .generate(prompt)
+        .generate(generatePrompt())
         .then((response) => {
-          console.log(response);
+          modal.open({
+            title: "Letter",
+            content: form.create(response),
+          });
         })
         .catch((error) => {
           console.error("unable to generate letter", error);
