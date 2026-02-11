@@ -6,6 +6,12 @@ import { API } from "@/modules/api";
 import { LetterForm } from "@/modules/letter-form";
 import { Modal } from "@/modules/modal";
 import { FormSubmitHandler } from "@/models/form";
+import {
+  getResponseButton,
+  pasteLetter,
+  submitLetter,
+  waitUntilResponseLetter,
+} from "@/utils/letter-submit";
 
 const init = async () => {
   const ui = UI.getInstance();
@@ -35,17 +41,33 @@ const init = async () => {
 
   if (!isVacancyPage()) return;
 
-  const onLetterSubmit: FormSubmitHandler = (e: Event) => {
+  const onLetterSubmit: FormSubmitHandler = async (e: Event) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const letter = form.letter.value;
-    console.log("updated letter", letter);
+    const modal = Modal.getInstance();
+    modal.close();
+
+    const button = getResponseButton();
+    if (!button) {
+      console.error("response button not found");
+      return;
+    }
+    button.click();
+
+    waitUntilResponseLetter()
+      .then((textarea) => {
+        pasteLetter(textarea, letter);
+        submitLetter();
+      })
+      .catch((error) => {
+        console.error("unable to paste letter", error);
+      });
   };
 
   const onGenerateResponse = (response: string) => {
     const form = LetterForm.getInstance();
     const content = form.create(response, onLetterSubmit);
-
     const modal = Modal.getInstance();
     modal.open({ title: "Letter", content });
   };
