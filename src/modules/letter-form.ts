@@ -1,3 +1,5 @@
+import { FormSubmitHandler } from "@/models/form";
+
 const ids = {
   form: "letter-form",
   textarea: "letter-textarea",
@@ -16,7 +18,7 @@ export class LetterForm {
     return LetterForm.instance;
   }
 
-  public create(letter: string) {
+  public create(letter: string, onSubmit: FormSubmitHandler) {
     this.form = document.createElement("form");
     this.form.id = ids.form;
     this.form.className = ids.form;
@@ -28,12 +30,7 @@ export class LetterForm {
     textarea.name = "letter";
     this.form.appendChild(textarea);
 
-    this.form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const form = e.target as HTMLFormElement;
-      const letter = form.letter.value;
-      console.log("updated letter", letter);
-    });
+    this.form.addEventListener("submit", onSubmit);
 
     const copy = document.createElement("button");
     copy.id = ids.copy;

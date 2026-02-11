@@ -1,4 +1,6 @@
 import { SettingsValues } from "@/models/settings";
+import { UI } from "./ui";
+import { isFormElement } from "@/utils/form";
 
 type SettingsData = Record<string, SettingsValues>;
 
@@ -35,6 +37,34 @@ export class Settings {
 
   public getValue<K extends keyof SettingsValues>(key: K): SettingsValues[K] {
     return this.values[key];
+  }
+
+  public getForm(): HTMLFormElement {
+    const ui = UI.getInstance();
+    const form = ui.shadow?.querySelector("#form");
+    if (form instanceof HTMLFormElement === false) {
+      throw new Error("form element not found");
+    }
+    return form;
+  }
+
+  public getFormValues(): SettingsValues {
+    const form = new FormData(this.getForm());
+    return {
+      api_key: String(form.get("api_key") ?? ""),
+      experience: String(form.get("experience") ?? ""),
+    };
+  }
+
+  public setFieldValue(
+    name: keyof SettingsValues,
+    value: string,
+    form?: HTMLFormElement,
+  ) {
+    const element = form ?? this.getForm();
+    const field = element.elements.namedItem(name);
+    if (!isFormElement(field)) throw new Error(`field "${name}" not found`);
+    field.value = value;
   }
 
   public async save(values: SettingsValues): Promise<void> {
