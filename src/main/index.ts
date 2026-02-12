@@ -30,6 +30,11 @@ const init = async () => {
   settings.setFieldValue("experience", values.experience);
 
   const settingsUI = settings.elements.getAll();
+  settingsUI.form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = settings.getFormValues();
+    store.save(data);
+  });
   settingsUI.toggle.addEventListener("click", () => {
     settingsUI.container.classList.toggle("hidden");
   });
