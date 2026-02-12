@@ -13,6 +13,7 @@ import {
   waitUntilResponseLetter,
 } from "@/utils/letter-submit";
 import { generatePrompt } from "@/utils/prompt";
+import { createLoadingManager, showTemporaryText } from "@/utils/ui";
 import { isVacancyPage } from "@/utils/vacancy";
 
 const init = async () => {
@@ -33,7 +34,9 @@ const init = async () => {
   settingsUI.form.addEventListener("submit", (e) => {
     e.preventDefault();
     const data = settings.getFormValues();
-    store.save(data);
+    store.save(data).then(() => {
+      showTemporaryText(settingsUI.save, "Saved!");
+    });
   });
   settingsUI.toggle.addEventListener("click", () => {
     settingsUI.container.classList.toggle("hidden");
@@ -57,6 +60,8 @@ const init = async () => {
       return;
     }
     button.click();
+    const loader = createLoadingManager(button, "Submitting...");
+    loader.start();
 
     waitUntilResponseLetter()
       .then((textarea) => {
@@ -65,6 +70,9 @@ const init = async () => {
       })
       .catch((error) => {
         console.error("unable to paste letter", error);
+      })
+      .finally(() => {
+        loader.end();
       });
   };
 
@@ -86,11 +94,17 @@ const init = async () => {
   };
 
   const onGenerateClick = () => {
+    const generate = GenerateButton.getInstance();
+    const loader = createLoadingManager(generate.button, "Generating...");
+    loader.start();
     API.getInstance()
       .generate(generatePrompt())
       .then(onGenerateResponse)
       .catch((error) => {
         console.error("unable to generate letter", error);
+      })
+      .finally(() => {
+        loader.end();
       });
   };
 

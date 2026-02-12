@@ -2,6 +2,7 @@ import { UIManager } from "@/services/ui-manager";
 import html from "@/letter-form/layout.html?raw";
 import css from "@/letter-form/styles.css?inline";
 import { Elements } from "@/utils/elements";
+import { showTemporaryText } from "@/utils/ui";
 
 interface LetterFormElements {
   form: HTMLFormElement;
@@ -46,6 +47,7 @@ export class LetterForm {
     const copy = this.elements.get("copy");
     copy.addEventListener("click", () => {
       navigator.clipboard.writeText(textarea.value);
+      showTemporaryText(copy, "Copied!");
     });
 
     return layout;
