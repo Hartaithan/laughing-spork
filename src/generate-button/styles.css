@@ -1,0 +1,17 @@
+#generate-button {
+  position: fixed;
+  bottom: var(--toggle-offset);
+  right: calc(var(--toggle-offset) + var(--toggle-offset) + var(--toggle-size));
+  width: auto;
+  height: var(--toggle-size);
+  background: var(--accent);
+  color: var(--text-primary);
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  padding: 1rem;
+}

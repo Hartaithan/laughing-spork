@@ -1,8 +1,8 @@
-import { Settings } from "@/modules/settings";
 import { getVacancyContent } from "./vacancy";
+import { SettingsStore } from "@/services/settings-store";
 
 export const generatePrompt = (): string => {
-  const settings = Settings.getInstance();
+  const store = SettingsStore.getInstance();
 
   const prompt = `
     Ты - профессиональный HR-консультант. Твоя задача - написать сопроводительное письмо для отклика на вакансию.
@@ -13,7 +13,7 @@ export const generatePrompt = (): string => {
     - верни в ответе только текст сопроводительного письма
     - не добавляй в конце подпись с именем и контактами
     Мой опыт:
-    ${settings.getValue("experience")}
+    ${store.getValue("experience")}
     Описание вакансии:
     ${getVacancyContent()}
   `;

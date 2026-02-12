@@ -10,11 +10,10 @@ export default defineManifest({
   icons: { 48: "public/logo.png" },
   action: {
     default_icon: { 48: "public/logo.png" },
-    default_popup: "src/popup/index.html",
   },
   content_scripts: [
     {
-      js: ["src/content/main.ts"],
+      js: ["src/main/index.ts"],
       matches,
       run_at: "document_start",
     },

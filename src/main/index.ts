@@ -1,40 +1,38 @@
-import { Settings } from "@/modules/settings";
-import { UI } from "@/modules/ui";
-import { isVacancyPage } from "@/utils/vacancy";
-import { generatePrompt } from "@/utils/prompt";
-import { API } from "@/modules/api";
-import { LetterForm } from "@/modules/letter-form";
-import { Modal } from "@/modules/modal";
-import { FormSubmitHandler } from "@/models/form";
+import { GenerateButton } from "@/generate-button";
+import { LetterForm } from "@/letter-form";
+import { Modal } from "@/modal";
+import { API } from "@/services/api";
+import { SettingsStore } from "@/services/settings-store";
+import { UIManager } from "@/services/ui-manager";
+import { Settings } from "@/settings";
+import { FormSubmitHandler } from "@/utils/form";
 import {
   getResponseButton,
   pasteLetter,
   submitLetter,
   waitUntilResponseLetter,
 } from "@/utils/letter-submit";
+import { generatePrompt } from "@/utils/prompt";
+import { isVacancyPage } from "@/utils/vacancy";
 
 const init = async () => {
-  const ui = UI.getInstance();
-  const settingsUI = ui.settings;
+  const ui = UIManager.getInstance();
+  ui.init();
+
+  const store = SettingsStore.getInstance();
+  await store.loadValues();
 
   const settings = Settings.getInstance();
-  await settings.loadValues();
-  const values = settings.getValues();
+  settings.render();
 
-  const settingsForm = settings.getForm();
-  settings.setFieldValue("api_key", values.api_key, settingsForm);
-  settings.setFieldValue("experience", values.experience, settingsForm);
+  const values = store.getValues();
+  settings.setFieldValue("api_key", values.api_key);
+  settings.setFieldValue("experience", values.experience);
 
-  settingsForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const data = settings.getFormValues();
-    settings.save(data);
-  });
-
+  const settingsUI = settings.elements.getAll();
   settingsUI.toggle.addEventListener("click", () => {
     settingsUI.container.classList.toggle("hidden");
   });
-
   settingsUI.close.addEventListener("click", () => {
     settingsUI.container.classList.add("hidden");
   });
@@ -66,8 +64,18 @@ const init = async () => {
   };
 
   const onGenerateResponse = (response: string) => {
-    const form = LetterForm.getInstance();
-    const content = form.create(response, onLetterSubmit);
+    const letterForm = LetterForm.getInstance();
+    const content = letterForm.create(response);
+
+    const form = letterForm.elements.get("form");
+    form.addEventListener("submit", onLetterSubmit);
+
+    const copy = letterForm.elements.get("copy");
+    copy.addEventListener("click", () => {
+      const textarea = letterForm.elements.get("textarea");
+      navigator.clipboard.writeText(textarea.value);
+    });
+
     const modal = Modal.getInstance();
     modal.open({ title: "Letter", content });
   };
@@ -81,8 +89,8 @@ const init = async () => {
       });
   };
 
-  const generateButton = ui.createGenerateButton();
-  generateButton.addEventListener("click", onGenerateClick);
+  const generate = GenerateButton.getInstance().create();
+  generate.addEventListener("click", onGenerateClick);
 };
 
 if (document.readyState === "loading") {

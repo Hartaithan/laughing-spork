@@ -1,4 +1,4 @@
-import { Settings } from "./settings";
+import { SettingsStore } from "./settings-store";
 
 // const model = "openai/gpt-oss-120b:free";
 const model = "tngtech/deepseek-r1t2-chimera:free";
@@ -13,11 +13,11 @@ export class API {
   }
 
   public generate(prompt: string) {
-    const settings = Settings.getInstance();
+    const store = SettingsStore.getInstance();
     return fetch(`${API.API_URL}/chat/completions`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${settings.getValue("api_key")}`,
+        Authorization: `Bearer ${store.getValue("api_key")}`,
         "Content-Type": "application/json",
         "HTTP-Referer": window.location.origin,
         "X-Title": encodeURIComponent(document.title),

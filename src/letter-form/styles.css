@@ -1,0 +1,33 @@
+#letter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#letter-textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 0.5rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+#letter-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+#letter-copy,
+#letter-submit {
+  width: 100%;
+  padding: 0.5rem;
+  background: var(--accent);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+#letter-copy {
+  background: var(--bg-tertiary);
+}
