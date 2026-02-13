@@ -26,9 +26,13 @@ const init = async () => {
   const settings = Settings.getInstance();
   settings.render();
 
-  const values = store.getValues();
-  settings.setFieldValue("api_key", values.api_key);
-  settings.setFieldValue("experience", values.experience);
+  const setValues = () => {
+    const values = store.getValues();
+    settings.setFieldValue("api_key", values.api_key);
+    settings.setFieldValue("experience", values.experience);
+  };
+
+  setValues();
 
   const settingsUI = settings.elements.getAll();
   settingsUI.form.addEventListener("submit", (e) => {
@@ -43,6 +47,12 @@ const init = async () => {
   });
   settingsUI.close.addEventListener("click", () => {
     settingsUI.container.classList.add("hidden");
+  });
+  settingsUI.reset.addEventListener("click", () => {
+    store.reset().then(() => {
+      showTemporaryText(settingsUI.reset, "Resetted!");
+      setValues();
+    });
   });
 
   if (!isVacancyPage()) return;

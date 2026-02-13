@@ -44,4 +44,9 @@ export class SettingsStore {
     this.values = values;
     await chrome.storage.local.set({ [SettingsStore.KEY]: values });
   }
+
+  public async reset(): Promise<void> {
+    this.values = this.getDefaultValues();
+    await chrome.storage.local.set({ [SettingsStore.KEY]: this.values });
+  }
 }

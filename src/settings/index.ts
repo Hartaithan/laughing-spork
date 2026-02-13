@@ -11,6 +11,7 @@ interface SettingsElements {
   close: HTMLButtonElement;
   form: HTMLFormElement;
   save: HTMLButtonElement;
+  reset: HTMLButtonElement;
 }
 
 export class Settings {
@@ -46,6 +47,7 @@ export class Settings {
       close: "#settings-close",
       form: "#settings-form",
       save: "#settings-save",
+      reset: "#settings-reset",
     });
   }
 
