@@ -1,8 +1,5 @@
 import { SettingsStore } from "./settings-store";
 
-// const model = "openai/gpt-oss-120b:free";
-const model = "tngtech/deepseek-r1t2-chimera:free";
-
 export class API {
   private static instance: API;
   private static readonly API_URL = import.meta.env.VITE_API_BASE_URL;
@@ -14,6 +11,8 @@ export class API {
 
   public generate(prompt: string) {
     const store = SettingsStore.getInstance();
+    const model = store.getValue("model");
+    if (!model || model.length === 0) throw new Error("model not found");
     return fetch(`${API.API_URL}/chat/completions`, {
       method: "POST",
       headers: {

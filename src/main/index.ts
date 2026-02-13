@@ -30,6 +30,7 @@ const init = async () => {
     const values = store.getValues();
     settings.setFieldValue("api_key", values.api_key);
     settings.setFieldValue("experience", values.experience);
+    settings.setFieldValue("model", values.model);
   };
 
   setValues();
