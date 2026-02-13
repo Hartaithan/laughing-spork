@@ -3,6 +3,7 @@ import html from "@/letter-form/layout.html?raw";
 import css from "@/letter-form/styles.css?inline";
 import { Elements } from "@/utils/elements";
 import { showTemporaryText } from "@/utils/ui";
+import { SettingsStore } from "@/services/settings-store";
 
 interface LetterFormElements {
   form: HTMLFormElement;
@@ -43,6 +44,9 @@ export class LetterForm {
 
     const textarea = this.elements.get("textarea");
     textarea.value = letter;
+
+    const store = SettingsStore.getInstance();
+    textarea.value += `\n\n${store.getValue("links")}`;
 
     const copy = this.elements.get("copy");
     copy.addEventListener("click", () => {

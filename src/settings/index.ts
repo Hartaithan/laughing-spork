@@ -56,6 +56,7 @@ export class Settings {
     return {
       api_key: String(data.get("api_key") ?? ""),
       experience: String(data.get("experience") ?? ""),
+      links: String(data.get("links") ?? ""),
       model: String(data.get("model") ?? ""),
     };
   }

@@ -1,6 +1,7 @@
 export interface SettingsValues {
   api_key: string;
   experience: string;
+  links: string;
   model: string;
 }
 
@@ -17,7 +18,12 @@ export class SettingsStore {
   }
 
   public getDefaultValues(): SettingsValues {
-    return { api_key: "", experience: "", model: "openai/gpt-oss-20b:free" };
+    return {
+      api_key: "",
+      experience: "",
+      links: "",
+      model: "openai/gpt-oss-20b:free",
+    };
   }
 
   public async loadValues(): Promise<void> {
