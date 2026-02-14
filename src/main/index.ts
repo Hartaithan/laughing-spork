@@ -61,10 +61,9 @@ const init = async () => {
 
   const onLetterSubmit: FormSubmitHandler = async (e: Event) => {
     e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const letter = form.letter.value;
+
     const modal = Modal.getInstance();
-    modal.close();
+    const letterForm = LetterForm.getInstance();
 
     const button = getResponseButton();
     if (!button) {
@@ -72,13 +71,19 @@ const init = async () => {
       return;
     }
     button.click();
-    const loader = createLoadingManager(button, "Submitting...");
+
+    const form = e.target as HTMLFormElement;
+    const letter = form.letter.value;
+
+    const submit = letterForm.elements.get("submit");
+    const loader = createLoadingManager(submit, "Submitting...");
     loader.start();
 
     waitUntilResponseLetter()
       .then((textarea) => {
         pasteLetter(textarea, letter);
         submitLetter();
+        modal.close();
       })
       .catch((error) => {
         console.error("unable to paste letter", error);
