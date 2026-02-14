@@ -5,6 +5,7 @@ import { API } from "@/services/api";
 import { SettingsStore } from "@/services/settings-store";
 import { UIManager } from "@/services/ui-manager";
 import { Settings } from "@/settings";
+import { copyToClipboard } from "@/utils/clipboard";
 import { FormSubmitHandler } from "@/utils/form";
 import {
   getResponseButton,
@@ -94,6 +95,8 @@ const init = async () => {
   };
 
   const onGenerateResponse = (response: string) => {
+    copyToClipboard(response);
+
     const letterForm = LetterForm.getInstance();
     const content = letterForm.create(response);
 
@@ -103,7 +106,8 @@ const init = async () => {
     const copy = letterForm.elements.get("copy");
     copy.addEventListener("click", () => {
       const textarea = letterForm.elements.get("textarea");
-      navigator.clipboard.writeText(textarea.value);
+      copyToClipboard(textarea.value);
+      showTemporaryText(copy, "Copied!");
     });
 
     const modal = Modal.getInstance();

@@ -54,7 +54,6 @@ export const waitUntilResponseLetter = (
 export const pasteLetter = (textarea: HTMLTextAreaElement, letter: string) => {
   textarea.value = letter;
   textarea.dispatchEvent(new Event("input", { bubbles: true }));
-  navigator.clipboard.writeText(textarea.value);
 };
 
 export const submitLetter = () => {
