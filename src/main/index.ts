@@ -100,6 +100,9 @@ const init = async () => {
     const letterForm = LetterForm.getInstance();
     const content = letterForm.create(response);
 
+    const textarea = letterForm.elements.get("textarea");
+    copyToClipboard(textarea.value);
+
     const form = letterForm.elements.get("form");
     form.addEventListener("submit", onLetterSubmit);
 
